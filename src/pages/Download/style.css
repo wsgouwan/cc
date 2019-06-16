@@ -1,0 +1,80 @@
+.download-wrap {
+  position: relative;
+  width: 100%;
+  height: 796px;
+  z-index: 1;
+}
+
+.download-wrap::before {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  content: ' ';
+  background-image: url("./test.jpg");
+  background-position: center top;
+  background-size: cover;
+  -webkit-filter: blur(2px);
+  -moz-filter: blur(2px);
+  -ms-filter: blur(2px);
+  -o-filter: blur(2px);
+  filter: blur(2px);
+  z-index: -1;
+}
+
+.download-wrap .w1000 {
+  padding-top: 82px;
+}
+
+.download-wrap .left {
+  float: left;
+  width: 300px;
+  height: 445px;
+  margin-right: 166px;
+}
+
+.download-wrap .left img {
+  width: 100%;
+}
+
+.download-wrap .right {
+  float: left;
+}
+
+.download-wrap .right p {
+  font-size: 16px;
+  font-weight: 400;
+  color: white;
+  line-height: 22px;
+  margin-top: 16px;
+}
+
+.download-wrap .right p.title1 {
+  font-size: 46px;
+  line-height: 64px;
+  margin-top: 68px;
+}
+
+.download-wrap .right p.title2 {
+  font-size: 28px;
+  line-height: 40px;
+  margin-top: 16px;
+}
+
+.download-wrap .right a {
+  display: block;
+  width: 240px;
+  height: 60px;
+  line-height: 60px;
+  background: linear-gradient(270deg, #007bff 0%, #01abff 100%);
+  box-shadow: 0px -4px 10px 0px rgba(0, 123, 255, 0.3);
+  border-radius: 30px;
+  margin-top: 50px;
+  transition: all 0.4s;
+  color: #fff;
+  text-align: center;
+  font-size: 18px;
+}
+
+.download-wrap .right a:hover {
+  background: linear-gradient(270deg, #007bff 100%, #01abff 0%);
+}

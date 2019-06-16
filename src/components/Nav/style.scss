@@ -27,7 +27,7 @@
         float: left;
         height: 100px;
         line-height: 100px;
-        &::after, &.active{
+        &::after{
           position: absolute;
           width:0;
           height:4px;
@@ -39,8 +39,10 @@
           transition: all 0.3s;
         }
         &.active{
-          width: 40px;
-          margin-left: -20px;
+          &:after{
+            width: 40px;
+            margin-left: -20px;
+          }
         }
         &:hover{
           &:after{

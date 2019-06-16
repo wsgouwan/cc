@@ -1,0 +1,102 @@
+.price-wrap{
+  width: 100%;
+  height: 724px;
+  overflow: hidden;
+  background: #F9FAFE;
+  h1{
+    height:56px;
+    line-height: 56px;
+    font-size:40px;
+    margin-top: 80px;
+    text-align: center;
+  }
+  .items{
+    width: 980px;
+    margin: 50px auto 0;
+    .item{
+      position: relative;
+      float: left;
+      width: 25%;
+      height: 450px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      overflow: hidden;
+      background: rgba(209, 207, 207, 0.1);
+      &::before{
+        position: absolute;
+        left: 50%;
+        width: 0;
+        height: 4px;
+        margin-left: 0;
+        content: ' ';
+        background: #0A8AFF;
+        transition: all 0.3s;
+        transform-origin: center;
+      }
+      &:hover{
+        box-shadow: 0 0 10px rgba($color: #000000, $alpha: 0.2);
+        border-radius: 4px;
+        &::before{
+          width: 245px;
+          margin-left: -122px;
+        }
+        .pay{
+          opacity: 1;
+        }
+      }
+      .name{
+        height:28px;
+        line-height:28px;
+        font-size:20px;
+        font-weight:400;
+        color:rgba(16,16,16,1);
+        margin-top: 50px;
+      }
+      .price{
+        height:64px;
+        font-size:48px;
+        font-weight:400;
+        color:rgba(16,16,16,1);
+        line-height:64px;
+        margin-top: 30px;
+        vertical-align: bottom;
+        span{
+          &.small{
+            font-size: 12px;
+          }
+        }
+      }
+      .tab{
+        width: 100px;
+        height: 30px;
+        line-height: 30px;
+        font-size: 16px;
+        background: #FF495F;
+        border-radius: 16px 16px 16px 0;
+        color: #fff;
+        margin: 20px auto 0;
+      }
+      .desc{
+        height:44px;
+        font-size:16px;
+        font-weight:400;
+        color:rgba(102,102,102,1);
+        line-height:22px;
+        margin-top: 32px;
+      }
+      .pay{
+        width:180px;
+        height:50px;
+        line-height: 50px;
+        background:linear-gradient(270deg,rgba(0,123,255,1) 0%,rgba(1,171,255,1) 100%);
+        border-radius:30px;
+        margin: 30px auto 0;
+        font-size: 20px;
+        color: #fff;
+        opacity: 0;
+        transition: all 0.3s;
+      }
+    }
+  }
+}

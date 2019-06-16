@@ -1,0 +1,44 @@
+.slideIcon{
+  position: fixed;
+  right: 0;
+  top: 50%;
+  margin-top: -105px;
+  width: 70px;
+  height: 210px;
+  background: #fff;
+  border-radius: 4px;
+  >div{
+    position: relative;
+    width: 70px;
+    height: 70px;
+    &.qq{
+      background:#0198F9 url('./images/QQ.png') center no-repeat;
+      background-size: 40px;
+      border-radius: 4px 4px 0 0 ;
+    }
+    &.weibo{
+      background: url('./images/weibo.png') center no-repeat;
+      background-size: 40px;
+    }
+    &.wechat{
+      background: url('./images/wechat.png') center no-repeat;
+      background-size: 40px;
+    }
+    img{
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      opacity: 0;
+      top: -25px;
+      right: -100px;
+      background: #0198F9;
+      transition: all 0.4s;
+    }
+    &:hover{
+      img{
+        right: 100px;
+        opacity: 1;
+      }
+    }
+  }
+}

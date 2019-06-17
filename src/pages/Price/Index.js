@@ -13,10 +13,10 @@ export default class Price extends Component {
             <p className="name">包月套餐</p>
             <p className="price">
               <span className="small">￥</span>
-              <span>30</span>
+              <span>29</span>
             </p>
             <div className="tab">原价36元</div>
-            <p className="desc">有效期30天<br />折合1.00元/天</p>
+            <p className="desc">有效期30天<br />折合0.97元/天</p>
             <div className="pay">立即充值</div>
           </div>
           {/* 套餐2 */}
@@ -24,14 +24,14 @@ export default class Price extends Component {
             <p className="name">包季套餐</p>
             <p className="price">
               <span className="small">￥</span>
-              <span>69</span>
+              <span>79</span>
             </p>
             <div className="tab">原价108元</div>
-            <p className="desc">有效期90天<br />折合0.77元/天</p>
+            <p className="desc">有效期90天<br />折合0.88元/天</p>
             <div className="pay">立即充值</div>
           </div>
           {/* 套餐3 */}
-          <div className="item item1">
+          {/* <div className="item item1">
             <p className="name">半年套餐</p>
             <p className="price">
               <span className="small">￥</span>
@@ -40,16 +40,16 @@ export default class Price extends Component {
             <div className="tab">原价216元</div>
             <p className="desc">有效期180天<br />折合0.66元/天</p>
             <div className="pay">立即充值</div>
-          </div>
+          </div> */}
           {/* 套餐4 */}
           <div className="item item1">
             <p className="name">包年套餐</p>
             <p className="price">
               <span className="small">￥</span>
-              <span>199</span>
+              <span>269</span>
             </p>
             <div className="tab">原价288元</div>
-            <p className="desc">有效期365天<br />折合0.54元/天</p>
+            <p className="desc">有效期365天<br />折合0.74元/天</p>
             <div className="pay">立即充值</div>
           </div>
         </div>

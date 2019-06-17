@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev-build": "webpack --config webpack.dev.config.js",
-    "start": "webpack-dev-server --config webpack.dev.config.js --color --progress --hot --public 192.168.0.105",
+    "start": "webpack-dev-server --config webpack.dev.config.js --color --progress --hot --public 172.16.21.120",
     "build": "webpack --config webpack.config.js"
   },
   "keywords": [

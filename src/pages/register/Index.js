@@ -48,6 +48,7 @@ export default class Register extends Component {
       }, function onload(instance) {
         captchaIns = instance
       }, function onerror(err) {
+        console.log(err)
         // 验证码初始化失败处理逻辑，例如：提示用户点击按钮重新初始化
       })
     })

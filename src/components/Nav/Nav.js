@@ -34,7 +34,7 @@ export default class Nav extends Component {
               <li className={route == 'help' ? 'active': ''}><Link to="/help">帮助 </Link></li>
             </ul>
             <div className="buttons">
-              <Link to="/">登录</Link>
+              <Link className="login" to="/login">登录</Link>
               <Link className="register" to="/register">免费注册</Link>
             </div>
           </div>

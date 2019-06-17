@@ -43,10 +43,17 @@ input{
     margin-top: 20px;
   }
   span{
+    display: block; 
     font-size: 12px;
     line-height: 18px;
     color: #999;
     margin: 6px 0;
+    &.pp{
+      background: url('../images/pp.png') left center no-repeat;
+      background-size: 18px;
+      color: #FF495F;
+      text-indent: 28px;
+    }
   }
   .vcode{
     input{
@@ -86,6 +93,16 @@ input{
     border-radius: 100px;
     background:linear-gradient(270deg,rgba(0,123,255,1) 0%,rgba(1,171,255,1) 100%);
     margin-top: 50px;
+    margin-bottom: 30px;
+    cursor: pointer;
+  }
+  .change-type{
+    height:25px;
+    font-size:18px;
+    font-weight:400;
+    color:rgba(1,152,249,1);
+    line-height:25px;
+    text-align: center;
     cursor: pointer;
   }
 }

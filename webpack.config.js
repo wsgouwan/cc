@@ -8,35 +8,36 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const commonConfig = require('./webpack.common.config.js');
 
 const publicConfig = {
-    devtool: 'cheap-module-source-map',
-    module: {
-        loaders: [
-            {test: /(\.css|\.scss)$/, loader: ExtractTextPlugin.extract("style-loader", "css-loader","sass-loader")}
-        ]
-    },
-    plugins: [
-        new CleanWebpackPlugin(['dist/*.*']),
-        new UglifyJSPlugin({
-            mangle: {
-                screw_ie8: false
-            },
-            mangleProperties: {
-                screw_ie8: false,
-            },
-            compress: {
-                screw_ie8: false,
-            },
-            output: {
-                screw_ie8: false
-            }
-        }),
-        new webpack.DefinePlugin({
-            'process.env': {
-                'NODE_ENV': JSON.stringify('production')
-            }
-        }),
-        new ExtractTextPlugin('[name].[contenthash:5].css')
-    ]
+  devtool: 'cheap-module-source-map',
+  module: {
+    loaders: [{
+      test: /(\.css|\.scss)$/,
+      loaders: ["style-loader", "css-loader", "postcss-loader", "sass-loader"]
+    }]
+  },
+  plugins: [
+    new CleanWebpackPlugin(['dist/*.*']),
+    new UglifyJSPlugin({
+      mangle: {
+        screw_ie8: false
+      },
+      mangleProperties: {
+        screw_ie8: false,
+      },
+      compress: {
+        screw_ie8: false,
+      },
+      output: {
+        screw_ie8: false
+      }
+    }),
+    new webpack.DefinePlugin({
+      'process.env': {
+        'NODE_ENV': JSON.stringify('production')
+      }
+    }),
+    new ExtractTextPlugin('[name].[contenthash:5].css')
+  ]
 
 };
 

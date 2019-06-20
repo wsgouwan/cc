@@ -7,7 +7,7 @@ export default class Nav extends Component {
   render() {
     let hash = window.location.hash;
     let route = hash.substr(2);
-    let routes = ['register', 'price', 'download', 'help'];
+    let routes = ['price', 'download', 'help'];
     let reg = /[\/|\?\#]/;
     let showNav = true;
     if(reg.test(route)) {
@@ -27,15 +27,17 @@ export default class Nav extends Component {
             V速网游加速器
           </div>
           <div className="right">
-            <ul>
-              <li className={route == '' ? 'active': ''}><Link to="/">首页</Link></li>
-              <li className={route == 'price' ? 'active': ''}><Link to="/price">套餐</Link></li>
-              <li className={route == 'download' ? 'active': ''}><Link to="/download">下载</Link></li>
-              <li className={route == 'help' ? 'active': ''}><Link to="/help">帮助 </Link></li>
-            </ul>
+            {
+              showNav ? <ul>
+                <li className={route == '' ? 'active': ''}><Link to="/">首页</Link></li>
+                <li className={route == 'price' ? 'active': ''}><Link to="/price">套餐</Link></li>
+                <li className={route == 'download' ? 'active': ''}><Link to="/download">下载</Link></li>
+                <li className={route == 'help' ? 'active': ''}><Link to="/help">帮助 </Link></li>
+              </ul> : null
+            }
             <div className="buttons">
-              <Link className="login" to="/login">登录</Link>
-              <Link className="register" to="/register">免费注册</Link>
+              {route != 'login' ? <Link className="login" to="/login">登录</Link> : null}
+              {route != 'register' ? <Link className="register" to="/register">免费注册</Link> : null}
             </div>
           </div>
 

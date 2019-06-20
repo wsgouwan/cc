@@ -19,7 +19,10 @@ export default class Register extends Component {
       client: 'web',
       captcha: '',      // 手机验证码
       verify: false,    // 验证通过的状态
-
+      username_err: '', // 
+      password_err: '',
+      password2_err: '',
+      captcha_err: ''
     };
     this.handlerSendSMS = this.handlerSendSMS.bind(this);
   }
@@ -104,7 +107,7 @@ export default class Register extends Component {
   }
 
   render() {
-    let { SMScount } = this.state;
+    let { SMScount, username_err, password_err, password2_err, captcha_err} = this.state;
     return (
       <div className="register">
         {/* 注册 */}
@@ -113,15 +116,15 @@ export default class Register extends Component {
           <div className="form">
             <div className="form-group">
               <input type="tel" className="form-control" placeholder="手机号码" name="username" />
-              <span className="pp">请输入您的手机号码</span>
+              {username_err ?<span className="pp">{username_err}</span> : null}
             </div>
             <div className="form-group">
               <input type="password" className="form-control" placeholder="密码" />
-              <span className="pp"></span>
+              {password_err ?<span className="pp">{password_err}</span> : null}
             </div>
             <div className="form-group">
               <input type="password" className="form-control" placeholder="确认密码" />
-              <span className="pp"></span>
+              {password2_err ?<span className="pp">{password2_err}</span> : null}
             </div>
             <div className="form-group">
               <div className="vcode">
@@ -131,7 +134,7 @@ export default class Register extends Component {
                 }
 
               </div>
-              <span className="pp">请输入您的手机号码</span>
+              {captcha_err ?<span className="pp">{captcha_err}</span> : null}
             </div>
             <div id="captcha"></div>
             {/* 立即注册按钮 */}

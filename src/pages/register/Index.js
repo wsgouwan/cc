@@ -5,13 +5,14 @@ import service from '../../assets/scripts/http';
 import { getTimestamp, loadScript } from '../../assets/scripts/utils';
 import JSEncrypt from 'JSEncrypt';
 import base64url from 'base64url';
+import {_Regex} from '../../assets/scripts/regex';
 import qs from 'qs';
 let captchaIns = null;
 export default class Register extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      status: 0,   // 0 注册中，  1 注册成功   2 注册失败
+      status: 1,   // 0 注册中，  1 注册成功   2 注册失败
       SMScount: 0,
       username: '',     // 手机号码
       password: '',     // 密码
@@ -56,13 +57,18 @@ export default class Register extends Component {
       })
     })
   }
-
+  // 变更
   handleInputChange(e, type) {
     if (!type) return false;
     let value = e.target.value;
-    if(['username', 'password', 'captcha'].includes(type)) {
+    if(['username', 'password', 'password2', 'captcha'].includes(type)) {
       this.setState({ [type]: value });
     }
+  }
+
+  // 清除错误
+  handlerClearError(err){
+    err && this.setState({[err]: ''})
   }
 
   handlerSendSMS() {
@@ -84,11 +90,37 @@ export default class Register extends Component {
 
   // 验证通过后 点击注册的按钮
   handlerRegister() {
-    let { verify, username, password, captcha } = this.state;
-    username = '15281069734';
-    password = 'ws123456@';
-    captcha = '266234';
+    let { verify, username, password, password2, captcha } = this.state;
+    console.log(username, password, password2, captcha)
+    if(username.length < 1) {
+      this.setState({username_err: '请输入您的手机号码'})
+      return false;
+    }
+    if(_Regex.username.test(username) == false) {
+      this.setState({username_err: '请输入正确的手机号码'})
+      return false;
+    }
 
+    for(let name of ['password', 'password2']){
+      let _value = this.state[name];
+      if(!_value){
+        this.setState({[`${name}_err`]:'请输入密码'});
+        break;
+      }
+      if(_Regex.password.test(_value) == false){
+        this.setState({[`${name}_err`]: '密码格式错误（8-16位至少包含一个英文或特殊字符串密码）'});
+        break;
+      }
+    }
+    if(password !== password2) {
+      this.setState({password2_err: '两次输入的密码不一致，请重新输入'});
+      return false;
+    }
+    if(this.state.password_err || this.state.password2_err) return false;
+    if(_Regex.captcha.test(captcha) == false) {
+      this.setState({captcha_err: '验证码格式错误'})
+      return false;
+    }
     service.get('certificate/publickey.do').then((res) => {
       if (res.status == 200 && res.data.code == 200) {
         return res.data.data.content;
@@ -100,49 +132,68 @@ export default class Register extends Component {
       cipher = cipher + '===='.substr(0, 4 - cipher.length % 4)
       service.post('account/signup.do', { username, password: cipher, captcha, client: 'web' }).then((res) => {
         if (res.status == 200 && res.data.code == 200) {
-          this.setState({ status: 1 })
+          this.setState({ status: 1 });
+          
         }
       })
     })
   }
 
   render() {
-    let { SMScount, username_err, password_err, password2_err, captcha_err} = this.state;
+    let { SMScount, username_err, password_err, password2_err, captcha_err, status} = this.state;
     return (
       <div className="register">
         {/* 注册 */}
-        <div className="c1">
-          <h1 className="title">手机账号注册</h1>
-          <div className="form">
-            <div className="form-group">
-              <input type="tel" className="form-control" placeholder="手机号码" name="username" />
-              {username_err ?<span className="pp">{username_err}</span> : null}
-            </div>
-            <div className="form-group">
-              <input type="password" className="form-control" placeholder="密码" />
-              {password_err ?<span className="pp">{password_err}</span> : null}
-            </div>
-            <div className="form-group">
-              <input type="password" className="form-control" placeholder="确认密码" />
-              {password2_err ?<span className="pp">{password2_err}</span> : null}
-            </div>
-            <div className="form-group">
-              <div className="vcode">
-                <input type="text" className="form-control" placeholder="验证码" />
-                {
-                  SMScount > 0 ? (<div className="getVcode disabled">{`(${SMScount})S后刷新`}</div>) : (<div onClick={this.handlerSendSMS} className="getVcode">免费获取验证码</div>)
-                }
-
+        {
+          status == 0 ? (
+            <div className="c1">
+            <h1 className="title">手机账号注册</h1>
+            <div className="form">
+              <div className="form-group">
+                <input type="tel" className="form-control" placeholder="手机号码" 
+                  onFocus={()=>{this.handlerClearError('username_err')}}
+                  onChange={(event) =>{this.handleInputChange(event, 'username')}}
+                  name="username" />
+                {username_err ?<span className="pp">{username_err}</span> : null}
               </div>
-              {captcha_err ?<span className="pp">{captcha_err}</span> : null}
+              <div className="form-group">
+                <input type="password" className="form-control"
+                onFocus={()=>{this.handlerClearError('password_err')}}
+                onChange={(event) =>{this.handleInputChange(event, 'password')}}  
+                placeholder="密码" name="password" />
+                {password_err ?<span className="pp">{password_err}</span> : null}
+              </div>
+              <div className="form-group">
+                <input type="password" className="form-control"
+                onFocus={()=>{this.handlerClearError('password2_err')}}
+                onChange={(event) =>{this.handleInputChange(event, 'password2')}}  
+                placeholder="确认密码" name="password2" />
+                {password2_err ?<span className="pp">{password2_err}</span> : null}
+              </div>
+              <div className="form-group">
+                <div className="vcode">
+                  <input type="text" className="form-control"
+                  onFocus={()=>{this.handlerClearError('captcha_err')}}
+                  onChange={(event) =>{this.handleInputChange(event, 'captcha')}}  
+                  name="captcha"  
+                  placeholder="验证码" />
+                  {
+                    SMScount > 0 ? (<div className="getVcode disabled">{`(${SMScount})S后刷新`}</div>) : (<div onClick={this.handlerSendSMS} className="getVcode">免费获取验证码</div>)
+                  }
+  
+                </div>
+                {captcha_err ?<span className="pp">{captcha_err}</span> : null}
+              </div>
+              <div id="captcha"></div>
+              {/* 立即注册按钮 */}
+              <div onClick={() => { this.handlerRegister() }} className="register-btn">立即注册</div>
             </div>
-            <div id="captcha"></div>
-            {/* 立即注册按钮 */}
-            <div onClick={() => { this.handlerRegister() }} className="register-btn">立即注册</div>
           </div>
-        </div>
-        {/* 注册成功 */}
-        <div className="c2"></div>
+          
+          ) : <div className="c2"></div>
+
+        }
+        
       </div>
     )
   }

@@ -24,7 +24,7 @@ export default class Nav extends Component {
       <div className="headder">
         <div className="w1000">
           <div className="logo">
-            V速网游加速器
+            <a href="/"> V速网游加速器</a>
           </div>
           <div className="right">
             {

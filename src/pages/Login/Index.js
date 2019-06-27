@@ -65,7 +65,6 @@ export default class Login extends Component {
   // 变更
   handlerValueChange(event, str){
     let value = event.target.value;
-    console.log(str, value)
     this.setState({[str]: value})
   }
   // 点击登陆
@@ -89,7 +88,6 @@ export default class Login extends Component {
       this.setState({username_captcha_err: '请输入正确的手机号码'})
       return false;
     }
-    console.log(captcha)
     if(_Regex.captcha.test(captcha) == false) {
       this.setState({captcha_err: '验证码格式错误'})
       return false;
@@ -105,7 +103,6 @@ export default class Login extends Component {
   // 使用密码登录
   handlerUsePasswordLogin(){
     let {username, password} = this.state;
-    console.log(username, password)
     if(username.length < 1) {
       this.setState({username_captcha_err: '请输入您的手机号码'})
       return false;

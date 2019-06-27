@@ -27,6 +27,9 @@
         float: left;
         height: 100px;
         line-height: 100px;
+        a{
+          padding: 36px 30px;
+        }
         &::after{
           position: absolute;
           width:0;

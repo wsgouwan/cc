@@ -13,7 +13,7 @@ export default class Footer extends Component {
             <li><a>官方QQ群</a></li>
           </ul>
           <div className="cryp">
-            <a href=""></a>©2019 autocryp All Right Reserved
+            <a href="">蜀ICP备19015164号</a>©2019 autocryp All Right Reserved
           </div>
         </div>
       </div>

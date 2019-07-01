@@ -3,8 +3,130 @@
   height: 724px;
   overflow: hidden;
   background: #F9FAFE;
+  padding-top: 92px;
+  box-sizing: content-box;
   .line{
     width: 1000px;
-    margin: 0 auto;
+    margin: 0 auto 30px;
+    &::after{
+      display: block;
+      content: ' ';
+      width: 100%;
+      clear: both;
+    }
+    .left{
+      float: left;
+      width: 15%;
+      text-align: right;
+      padding-right: 40px;
+      font-size:16px;
+      font-weight:400;
+      color:rgba(102,102,102,1);
+      line-height:22px;
+      height: 50px;
+      line-height: 50px;
+    }
+    .right{
+      width: 80%;
+      float: right;
+      text-align: left;
+      .username{
+        font-size:20px;
+        font-weight:500;
+        color:rgba(16,16,16,1);
+        line-height:50px;
+      }
+      .login{
+        display: block;
+        width:180px;
+        height:50px;
+        line-height: 50px;
+        text-align: center;
+        border-radius:30px;
+        border:2px solid rgba(1,152,249,1);
+        text-decoration: none;
+        font-size:18px;
+        font-weight:400;
+        color:rgba(1,152,249,1);
+      }
+      ul{
+        li{
+          width:180px;
+          height:120px;
+          border-radius:6px;
+          border:2px solid rgba(204,204,204,1);
+          display: inline-block;
+          margin-right: 20px;
+          text-align: center;
+          font-size:14px;
+          font-weight:400;
+          color:rgba(102,102,102,1);
+          line-height:20px;
+          cursor: pointer;
+          .type{
+            font-size:20px;
+            font-family:PingFangSC-Medium;
+            font-weight:bold;
+            color:rgba(16,16,16,1);
+            line-height:44px;
+            text-align: center;
+          }
+          .price{
+            span.big{
+              font-size:32px;
+              font-weight:bold;
+              color:rgba(102,102,102,1);
+              line-height: 38px;
+            }
+          }
+          &.active, &:hover{
+            border:2px solid rgba(1,152,249,1);
+            .price{
+              span.big{
+                color: #0198F9;
+              }
+            }
+          }
+        }
+      }
+      .pay-type{
+        display: inline-block;
+        width:180px;
+        height:72px;
+        border-radius:6px;
+        border:2px solid rgba(204,204,204,1);
+        margin-right: 20px;
+        cursor: pointer;
+        &.active, &:hover{
+          border:2px solid rgba(1,152,249,1);
+            .price{
+              span.big{
+                color: #0198F9;
+              }
+            }
+        }
+      }
+      .pay-count{
+        color:rgba(255,73,95,1);
+        line-height:50px;
+        .big{
+          font-size:32px;
+          font-weight:bold;
+        }
+      }
+      .button{
+        width:180px;
+        height:50px;
+        background:linear-gradient(270deg,rgba(0,123,255,1) 0%,rgba(1,171,255,1) 100%);
+        border-radius:30px;
+        font-size:20px;
+        font-weight:400;
+        color:rgba(255,255,255,1);
+        text-align: center;
+        &:hover{
+          background:linear-gradient(270deg,rgba(0,123,255,1) 100%,rgba(1,171,255,1) 0%);
+        }
+      }
+    }
   }
 }

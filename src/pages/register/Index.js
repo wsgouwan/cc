@@ -12,7 +12,7 @@ export default class Register extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      status: 1,   // 0 注册中，  1 注册成功   2 注册失败
+      status: 0,   // 0 注册中，  1 注册成功   2 注册失败
       SMScount: 0,
       username: '',     // 手机号码
       password: '',     // 密码

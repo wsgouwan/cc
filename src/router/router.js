@@ -12,6 +12,7 @@ import Download from 'bundle-loader?lazy&name=home!pages/Download/Index';
 import Help from 'bundle-loader?lazy&name=home!pages/Help/Index';
 import Reset from 'bundle-loader?lazy&name=home!pages/Reset/Index';
 import Login from 'bundle-loader?lazy&name=home!pages/Login/Index';
+import Pay from 'bundle-loader?lazy&name=home!pages/Pay/Index'
 
 import NotFound from 'bundle-loader?lazy&name=home!pages/NotFound/Index';
 
@@ -33,6 +34,8 @@ export default () => (
             <Route path="/help" component={createComponent(Help)}/>
             <Route path="/reset" component={createComponent(Reset)}/>
             <Route path="/login" component={createComponent(Login)}/>
+            <Route path="/pay/:type" component={createComponent(Pay)}/>
+            
             <Route component={createComponent(NotFound)}/>
         </Switch>
     </div>

@@ -97,6 +97,14 @@
         border:2px solid rgba(204,204,204,1);
         margin-right: 20px;
         cursor: pointer;
+        &.weixin{
+          background: url('../../assets/images/wxpay.png') center no-repeat;
+          background-size: 120px;
+        }
+        &.zhifubao{
+          background: url('../../assets/images/ali_pay.png') center no-repeat;
+          background-size: 120px;
+        }
         &.active, &:hover{
           border:2px solid rgba(1,152,249,1);
             .price{
@@ -130,5 +138,29 @@
         }
       }
     }
+  }
+}
+
+.pay-content{
+  width:672px;
+  height:468px;
+  background:rgba(255,255,255,1);
+  box-shadow:0px 4px 6px 0px rgba(0,0,0,0.08);
+  border-radius:8px;
+  text-align: center;
+  font-size:14px;
+  font-weight:400;
+  color:rgba(16,16,16,1);
+  line-height:20px;
+  box-sizing: content-box;
+  padding-top: 64px;
+  .order-price{
+    font-size:24px;
+    font-weight:bold;
+    color:rgba(255,73,95,1);
+    line-height:40px;
+  }
+  .qrCode{
+
   }
 }

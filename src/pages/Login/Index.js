@@ -1,13 +1,12 @@
 import React, { Component } from "react";
 import service from "../../assets/scripts/http";
 import {_Regex} from '../../assets/scripts/regex';
-// import { getTimestamp, loadScript } from '../../assets/scripts/utils';
 import JSEncrypt from 'JSEncrypt';
 import base64url from 'base64url';
 import "../../assets/styles/common.scss";
 import "./style.scss";
+var cookie = require('licia/cookie')
 
-console.log(_Regex)
 
 export default class Login extends Component {
   constructor() {
@@ -15,13 +14,15 @@ export default class Login extends Component {
     this.state = {
       type: "password", // password  ||  vcode
       SMScount: 0,
+      suspicious: 0,
       username: "",
       password: "",
       captcha: "",
       username_captcha_err: '',
       captcha_err:'',
       password_err: "",
-      client: "web"
+      client: "web",
+      errmsg: ''
     };
   }
 
@@ -30,8 +31,7 @@ export default class Login extends Component {
     let { type } = this.state;
     type = type == "password" ? "vcode" : "password";
     this.setState({ type, password: "", vcode: "", username_captcha_err: "" });
-    document.querySelector('input[name="password"]').setAttribute('value', '');
-    
+    // document.querySelector('input[name="password"]').setAttribute('value', '');
   }
   // 点击发送验证码
   handlerSendSMS() {
@@ -65,7 +65,8 @@ export default class Login extends Component {
   // 变更
   handlerValueChange(event, str){
     let value = event.target.value;
-    this.setState({[str]: value})
+    this.setState({[str]: value});
+
   }
   // 点击登陆
   handlerLogin() {
@@ -93,16 +94,24 @@ export default class Login extends Component {
       return false;
     }
     service.post('account/shortcut.do', { username, captcha, client: 'web' }).then((res) => {
-      console.log(res)
+      var data = res.data && res.data.data ;
+      if(res.status == 200){
+        console.log(res.headers['json-web-token'])
+        cookie.set('json-web-token', res.headers['json-web-token'])
+      }
       if (res.status == 200 && res.data.code == 200) {
-        
+        cookie.set('username', username);
+        cookie.set('interim', data.interim);
+        cookie.set('uuid', data.uuid);
+      }else{
+        this.setState({errmsg: res.data.info, suspicious: data ? data.suspicious: 0})
       }
     })
 
   }
   // 使用密码登录
   handlerUsePasswordLogin(){
-    let {username, password} = this.state;
+    let {username, password,captcha, suspicious} = this.state;
     if(username.length < 1) {
       this.setState({username_captcha_err: '请输入您的手机号码'})
       return false;
@@ -119,8 +128,12 @@ export default class Login extends Component {
       this.setState({password_err: '密码格式错误（8-16位至少包含一个英文或特殊字符串密码）'})
       return false;
     }
-
-    console.log(username, password)
+    if(suspicious == 1){
+      if(_Regex.captcha.test(captcha) == false) {
+        this.setState({captcha_err: '验证码格式错误'})
+        return false;
+      }
+    }
     service.get('certificate/publickey.do').then((res) => {
       if (res.status == 200 && res.data.code == 200) {
         return res.data.data.content;
@@ -131,16 +144,22 @@ export default class Login extends Component {
       encrypt.setPublicKey(content);
       let cipher = base64url.fromBase64(encrypt.encrypt(password));
       cipher = cipher + '===='.substr(0, 4 - cipher.length % 4)
-      service.post('account/signin.do', { username, password: cipher, client: 'web' }).then((res) => {
+      service.post('account/signin.do', { username, password: cipher, client: 'web',captcha}).then((res) => {
+        console.log(res)
         if (res.status == 200 && res.data.code == 200) {
-          this.setState({ status: 1 })
+          var data = res.data.data;
+          setCookie('username', username);
+          setCookie('interim', data.interim);
+          setCookie('username', data.uuid);
+        }else{
+          this.setState({errmsg: res.data.info, suspicious: res.data.data.suspicious})
         }
       })
     })
   }
 
   render() {
-    let { type, SMScount,username_captcha_err , captcha_err, password_err } = this.state;
+    let { type, SMScount,username_captcha_err , captcha_err, password_err, errmsg, suspicious } = this.state;
     return (
       <div className="login-wrap">
         {type == "password" ? (
@@ -156,11 +175,28 @@ export default class Login extends Component {
               <div className="form-group">
                 <input type="password" className="form-control" placeholder="密码" name="username"
                   onChange={(event) =>{this.handlerValueChange(event, 'password')}}
-                  onFocus={()=>{this.handlerClearError('password_err')}}
-                />
+                  onFocus={()=>{this.handlerClearError('password_err')}}/>
                 {password_err ?<span className="pp">{password_err}</span> : null}
               </div>
+              {
+                suspicious == 1 ? (
+                <div className="form-group">
+                  <div className="vcode">
+                    <input type="text" className="form-control" placeholder="验证码" maxLength="6"
+                      onChange={(event)=>{this.handlerValueChange(event, 'captcha')}}
+                      onFocus={()=>{this.handlerClearError('captcha_err')}}
+                    />
+                    {SMScount > 0 ? (
+                      <div className="getVcode disabled">{`(${SMScount})S后刷新`}</div>
+                    ) : (
+                      <div onClick={() => {this.handlerSendSMS();}}className="getVcode">免费获取验证码</div>
+                    )}
+                  </div>
+                  {captcha_err ?<span className="pp">{captcha_err}</span> : null}
+                </div>) :null
+              }
             </div>
+            <p className="errmsg">{errmsg? errmsg: ''}</p>
             <div className="register-btn" onClick={() => { this.handlerLogin();}}>登陆</div>
             <div className="change-type" onClick={() => {this.changeType();}}>使用验证码登陆</div>
           </div>
@@ -191,6 +227,7 @@ export default class Login extends Component {
               </div>
               <div id="captcha" />
             </div>
+            <p className="errmsg">{errmsg? errmsg: ''}</p>
             <div className="register-btn" onClick={() => { this.handlerLogin(); }}>登陆</div>
             <div className="change-type" onClick={() => {this.changeType();}}>使用账号密码登录</div>
           </div>

@@ -1,12 +1,17 @@
 import React, { Component } from 'react';
+import QRCode from 'qrcode.react';
+import service from "../../assets/scripts/http";
 import cs from 'classnames'
 import './style.scss';
+import Modal from '../../components/Modal/Index'
+var cookie = require('licia/cookie')
 
 export default class Price extends Component {
   constructor(){
     super();
+    let username = cookie.get('username');
     this.state = {
-      username: '15281069734',
+      username: username,
       type: '',           // 选择要充值的
       prices: [
         {type:'monthly',duratopn: '1.20',totalPrice: '36.00',title:'包月'},
@@ -14,7 +19,9 @@ export default class Price extends Component {
         {type:'yearly',duratopn: '0.79',totalPrice: '289.00',title:'包年'}
       ],
       pay_type: 'weixin',
-      total: ''
+      total: '',
+      url: '',
+      showWxPay: false,      //展示微信支付
     }
   }
 
@@ -23,6 +30,24 @@ export default class Price extends Component {
     let {type} = this.state;
     if(orderType == type) return false;
     this.setState({type: orderType});
+  }
+
+  handlerChangePay(type){
+    this.setState({pay_type: type})
+  }
+
+  // 立即支付
+  handlerPay(){
+    let {type} = this.state;
+    let jwt = cookie.get('json-web-token');
+    service.defaults.headers.common['Json-Web-Token'] = jwt;
+    service.post(`https://defray.vaiee.com/wechat/unified.do?goods=${type}`).then(res =>{
+      if(res.status == 200 &&res.data.code == 200){
+        this.setState({url: res.data.data.qr_url, showWxPay: true})
+      }
+    }, error =>{
+      console.log(error)
+    })
   }
 
   componentDidMount(){
@@ -35,7 +60,7 @@ export default class Price extends Component {
   }
 
   render() {
-    let {username, prices, type} = this.state;
+    let {username, prices, type, pay_type, url, showWxPay} = this.state;
     let pay_count = 0;
     pay_count = prices.filter(item =>{
       return  item.type == type;
@@ -47,7 +72,7 @@ export default class Price extends Component {
         <div className=" line">
           <div className="left">充值账号</div>
           <div className="right">
-            {username ? <span className="username">{username}</span>: <a className="login" href="">请登录</a>}
+            {username ? <span className="username">{username}</span>: <a className="login" href="/#/login">请登录</a>}
           </div>
         </div>
         <div className="line">
@@ -65,17 +90,14 @@ export default class Price extends Component {
                   )
                 })
               }
-              
             </ul>
           </div>
         </div>
         <div className="line">
           <div className="left">支付方式</div>
           <div className="right">
-            <div className="pay-type weixin">
-
-            </div>
-            <div className="pay-type zhifubao"></div>
+            <div className={cs({'pay-type': true, 'weixin': true,active: pay_type == 'weixin'})} onClick={()=>{this.handlerChangePay('weixin')}}></div>
+            <div className={cs({'pay-type': true, 'zhifubao': true,active: pay_type == 'zhifubao'})} onClick={()=>{this.handlerChangePay('zhifubao')}}></div>
           </div>
         </div>
         <div className="line">
@@ -87,9 +109,21 @@ export default class Price extends Component {
         <div className="line">
           <div className="left"></div>
           <div className="right">
-            <div className="button">立即充值</div>
+            <div className="button" onClick={()=>{this.handlerPay()}}>立即充值</div>
           </div>
         </div>
+        <Modal show={showWxPay}>
+          <div className="pay-content">
+            <div className="close"></div>
+            <p>微信扫一扫付款（元）</p>
+            <p className="order-price">{pay_count}</p>
+            <div className="qrCode">
+              <QRCode value={url} size={120} />
+              <p>打开微信扫一扫</p>
+            </div>
+            <p></p>
+          </div>
+        </Modal>
       </div>
     )
   }

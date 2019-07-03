@@ -13,8 +13,9 @@ export default class Footer extends Component {
             <li><a>官方QQ群</a></li>
           </ul>
           <div className="cryp">
-            <a href="">蜀ICP备19015164号</a>©2019 autocryp All Right Reserved
+            <a href="http://beian.miit.gov.cn/">蜀ICP备19015164号</a>©2019 autocryp All Right Reserved
           </div>
+          <p className="cryp">成都奋楫科技有限公司</p>
         </div>
       </div>
     )

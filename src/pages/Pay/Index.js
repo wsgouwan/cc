@@ -23,6 +23,7 @@ export default class Price extends Component {
       url: '',
       showWxPay: false,      //展示微信支付
     }
+    this.handlerClose = this.handlerClose.bind(this);
   }
 
   handlerChangeType(orderType){
@@ -46,8 +47,13 @@ export default class Price extends Component {
         this.setState({url: res.data.data.qr_url, showWxPay: true})
       }
     }, error =>{
-      console.log(error)
+      console.log(error);
+      window.location.href ='/'
     })
+  }
+
+  handlerClose(){
+    this.setState({ showWxPay: false})
   }
 
   componentDidMount(){
@@ -112,7 +118,7 @@ export default class Price extends Component {
             <div className="button" onClick={()=>{this.handlerPay()}}>立即充值</div>
           </div>
         </div>
-        <Modal show={showWxPay}>
+        <Modal show={showWxPay} handlerClose={this.handlerClose}>
           <div className="pay-content">
             <div className="close"></div>
             <p>微信扫一扫付款（元）</p>

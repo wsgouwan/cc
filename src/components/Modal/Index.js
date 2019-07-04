@@ -10,17 +10,13 @@ export default class Modal extends Component {
     };
   }
 
-  handlerClose() {
-    this.setState({show:false})
-  }
-
   render() {
-    let { show } = this.state;
+    let { show } = this.props;
     return (
       <div>
         {show ? (
           <div className="modal-wrap">
-            <div className="mask" onClick={()=>{this.handlerClose()}} />
+            <div className="mask" onClick={this.props.handlerClose} />
             <div className="content">{this.props.children}</div>
           </div>
         ) : null}

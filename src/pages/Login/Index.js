@@ -103,6 +103,7 @@ export default class Login extends Component {
         cookie.set('username', username);
         cookie.set('interim', data.interim);
         cookie.set('uuid', data.uuid);
+        alert('登陆成功')
       }else{
         this.setState({errmsg: res.data.info, suspicious: data ? data.suspicious: 0})
       }

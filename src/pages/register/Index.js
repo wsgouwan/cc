@@ -76,7 +76,7 @@ export default class Register extends Component {
     if (SMScount > 0) return false;
     this.setState({ SMScount: 60 })
     this.handlerCaptchaCount(59);
-    service.post('captcha/phone.do', { username: "15281069734" });
+    service.post('captcha/phone.do', { username: username });
   }
 
   // 验证码倒计时

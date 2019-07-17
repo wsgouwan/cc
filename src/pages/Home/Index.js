@@ -17,11 +17,11 @@ export default class Home extends Component {
           <div className="w1000">
             <div className="text">
               <p className="title1">
-                专线保证，超快速度，超低
+                专线保证，超快加速，超低
                 <br />
                 延迟，给您极致的
               </p>
-              <p>V速网游加速器V速网游加速器V速网游加速</p>
+              <p>最智能的网游加速器</p>
               <a href="">立即下载体验</a>
             </div>
             <div className="img">
@@ -39,21 +39,21 @@ export default class Home extends Component {
               <img src={icon_speed} />
               <p className="title">极致的游戏体验</p>
               <p>
-                采用全新的智能节点分配算法，确保游戏数据传输的高效性，数据传输稳定性高达99%
+                自主研发全新到节点分配系统，确保游戏数据传输的高效性，给您超低到游戏延迟体验
               </p>
             </li>
             <li>
               <img src={icon_node} />
-              <p className="title">极致的游戏体验</p>
+              <p className="title">专业的技术团队</p>
               <p>
-                采用全新的智能节点分配算法，确保游戏数据传输的高效性，数据传输稳定性高达99%
+              	7*24小时技术保障服务，为广大游戏玩家保驾护航
               </p>
             </li>
             <li>
               <img src={icon_setting} />
-              <p className="title">极致的游戏体验</p>
+              <p className="title">追求品质，稳中求进</p>
               <p>
-                采用全新的智能节点分配算法，确保游戏数据传输的高效性，数据传输稳定性高达99%
+                清新小巧的外观设计，流畅智能的加速体验，减少用户麻烦，让加速回归简单自然
               </p>
             </li>
           </ul>

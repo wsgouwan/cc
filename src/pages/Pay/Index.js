@@ -6,12 +6,16 @@ import './style.scss';
 import Modal from '../../components/Modal/Index'
 var cookie = require('licia/cookie')
 
+let trade_timer = null;
+
 export default class Price extends Component {
   constructor(){
     super();
     let username = cookie.get('username');
     this.state = {
       username: username,
+      trade_no: '',
+      payee: '',
       type: '',           // 选择要充值的
       prices: [
         {type:'monthly',duratopn: '1.20',totalPrice: '36.00',title:'包月'},
@@ -21,6 +25,7 @@ export default class Price extends Component {
       pay_type: 'weixin',
       total: '',
       url: '',
+      trade_no: '',
       showWxPay: false,      //展示微信支付
     }
     this.handlerClose = this.handlerClose.bind(this);
@@ -44,12 +49,30 @@ export default class Price extends Component {
     service.defaults.headers.common['Json-Web-Token'] = jwt;
     service.post(`https://defray.vaiee.com/wechat/unified.do?goods=${type}`).then(res =>{
       if(res.status == 200 &&res.data.code == 200){
-        this.setState({url: res.data.data.qr_url, showWxPay: true})
+        this.setState({url: res.data.data.qr_url, showWxPay: true, trade_no: res.data.data.trade_no, payee: res.data.data.payee});
+        this.handlerPolling(1800)
       }
     }, error =>{
       console.log(error);
       window.location.href ='/'
     })
+  }
+
+  handlerPolling(time){
+    if(time < 0 ) return false;
+    let {trade_no} = this.state;
+    trade_timer = setTimeout(()=>{
+      service.post(`https://defray.vaiee.com/defray/status.do?trade_no=${trade_no}`).then((res)=>{
+        console.log(res);
+        if(res.status == 200 &&res.data.data.status == 1){
+          clearInterval(trade_timer);
+          time = 0;
+          alert('支付成功');
+          this.setState({showWxPay: false})
+        }
+      });
+      this.handlerPolling(time--)
+    }, 2000)
   }
 
   handlerClose(){
@@ -66,7 +89,7 @@ export default class Price extends Component {
   }
 
   render() {
-    let {username, prices, type, pay_type, url, showWxPay} = this.state;
+    let {username, prices, type, pay_type, url, showWxPay, trade_no, payee} = this.state;
     let pay_count = 0;
     pay_count = prices.filter(item =>{
       return  item.type == type;
@@ -127,7 +150,11 @@ export default class Price extends Component {
               <QRCode value={url} size={120} />
               <p>打开微信扫一扫</p>
             </div>
-            <p></p>
+           <div className="info">
+            <p><span className="title">支付订单号：</span><span>{trade_no}</span></p>
+            <p><span className="title">订单账号：</span><span>{username}</span></p>
+            <p><span className="title">收款方：</span><span>{payee}</span></p>
+           </div>
           </div>
         </Modal>
       </div>
